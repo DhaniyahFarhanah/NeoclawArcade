@@ -35,6 +35,33 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""LowerClaw"",
+                    ""type"": ""Button"",
+                    ""id"": ""24eb6199-8694-4490-8851-6944cde86be2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RaiseClaw"",
+                    ""type"": ""Button"",
+                    ""id"": ""52eb7f7f-f529-4267-b424-46ba1a22aa13"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CloseClaw"",
+                    ""type"": ""Button"",
+                    ""id"": ""bf55bbf9-b75c-4966-b785-d17012ac10e9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -103,6 +130,72 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""action"": ""MoveClaw"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6c4b0af4-2e02-4327-9541-6a2056e10e37"",
+                    ""path"": ""<Gamepad>/rightStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LowerClaw"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cc0346f4-747b-4055-b9c9-7b2dcd3f41ed"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LowerClaw"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""333f780f-63b0-41cb-9dfc-e12cf1a5fa18"",
+                    ""path"": ""<Gamepad>/rightStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RaiseClaw"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""098a6233-f1d3-4cbc-acbd-b8ed659e2ed4"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RaiseClaw"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""381c5606-c888-41bc-9385-0163c84209e6"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CloseClaw"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a394622d-97ff-4848-9eaa-2806111b8c0c"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CloseClaw"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -112,6 +205,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         // Claw
         m_Claw = asset.FindActionMap("Claw", throwIfNotFound: true);
         m_Claw_MoveClaw = m_Claw.FindAction("MoveClaw", throwIfNotFound: true);
+        m_Claw_LowerClaw = m_Claw.FindAction("LowerClaw", throwIfNotFound: true);
+        m_Claw_RaiseClaw = m_Claw.FindAction("RaiseClaw", throwIfNotFound: true);
+        m_Claw_CloseClaw = m_Claw.FindAction("CloseClaw", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -174,11 +270,17 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Claw;
     private List<IClawActions> m_ClawActionsCallbackInterfaces = new List<IClawActions>();
     private readonly InputAction m_Claw_MoveClaw;
+    private readonly InputAction m_Claw_LowerClaw;
+    private readonly InputAction m_Claw_RaiseClaw;
+    private readonly InputAction m_Claw_CloseClaw;
     public struct ClawActions
     {
         private @PlayerInputs m_Wrapper;
         public ClawActions(@PlayerInputs wrapper) { m_Wrapper = wrapper; }
         public InputAction @MoveClaw => m_Wrapper.m_Claw_MoveClaw;
+        public InputAction @LowerClaw => m_Wrapper.m_Claw_LowerClaw;
+        public InputAction @RaiseClaw => m_Wrapper.m_Claw_RaiseClaw;
+        public InputAction @CloseClaw => m_Wrapper.m_Claw_CloseClaw;
         public InputActionMap Get() { return m_Wrapper.m_Claw; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -191,6 +293,15 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @MoveClaw.started += instance.OnMoveClaw;
             @MoveClaw.performed += instance.OnMoveClaw;
             @MoveClaw.canceled += instance.OnMoveClaw;
+            @LowerClaw.started += instance.OnLowerClaw;
+            @LowerClaw.performed += instance.OnLowerClaw;
+            @LowerClaw.canceled += instance.OnLowerClaw;
+            @RaiseClaw.started += instance.OnRaiseClaw;
+            @RaiseClaw.performed += instance.OnRaiseClaw;
+            @RaiseClaw.canceled += instance.OnRaiseClaw;
+            @CloseClaw.started += instance.OnCloseClaw;
+            @CloseClaw.performed += instance.OnCloseClaw;
+            @CloseClaw.canceled += instance.OnCloseClaw;
         }
 
         private void UnregisterCallbacks(IClawActions instance)
@@ -198,6 +309,15 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @MoveClaw.started -= instance.OnMoveClaw;
             @MoveClaw.performed -= instance.OnMoveClaw;
             @MoveClaw.canceled -= instance.OnMoveClaw;
+            @LowerClaw.started -= instance.OnLowerClaw;
+            @LowerClaw.performed -= instance.OnLowerClaw;
+            @LowerClaw.canceled -= instance.OnLowerClaw;
+            @RaiseClaw.started -= instance.OnRaiseClaw;
+            @RaiseClaw.performed -= instance.OnRaiseClaw;
+            @RaiseClaw.canceled -= instance.OnRaiseClaw;
+            @CloseClaw.started -= instance.OnCloseClaw;
+            @CloseClaw.performed -= instance.OnCloseClaw;
+            @CloseClaw.canceled -= instance.OnCloseClaw;
         }
 
         public void RemoveCallbacks(IClawActions instance)
@@ -218,5 +338,8 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     public interface IClawActions
     {
         void OnMoveClaw(InputAction.CallbackContext context);
+        void OnLowerClaw(InputAction.CallbackContext context);
+        void OnRaiseClaw(InputAction.CallbackContext context);
+        void OnCloseClaw(InputAction.CallbackContext context);
     }
 }
