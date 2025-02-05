@@ -9,7 +9,7 @@ public class InputScript : MonoBehaviour
     //All Gameobjects
     PlayerInputs controls;
 
-    GameObject clawAttachment;  
+    GameObject clawAttachment;
     GameObject clawPiece;
     GameObject claw1;
     GameObject claw2;
@@ -32,6 +32,9 @@ public class InputScript : MonoBehaviour
     [SerializeField] float clawRotationSpeed;   //Speed of the claw movement
     bool isClawOpen;                            //Bool to toggle claw
     float targetAngle;                          //Current angle needed for claw movement
+
+    bool inTransition;
+    public float openDuration = 2f;
 
     private void Awake()
     {
@@ -64,7 +67,7 @@ public class InputScript : MonoBehaviour
         //clawAttachment.transform.position += clawMovement * clawSpeed * Time.deltaTime;
         MoveMotor();
 
-        OpenClaws();
+        //OpenClaws();
     }
 
     private void MoveMotor()
@@ -75,10 +78,14 @@ public class InputScript : MonoBehaviour
 
     private void ToggleClaw()
     {
-        isClawOpen = !isClawOpen;
-
-        targetAngle = isClawOpen ? maxClawRotation : minClawRotation;
-        
+        if (!inTransition)
+        {
+            isClawOpen = !isClawOpen;
+            if (isClawOpen)
+                StartCoroutine(MoveClaw(openDuration, maxClawRotation, minClawRotation));
+            else
+                StartCoroutine(MoveClaw(openDuration, minClawRotation, maxClawRotation));
+        }
     }
 
     private void MoveMotorUp()
@@ -101,6 +108,30 @@ public class InputScript : MonoBehaviour
         claw3.transform.localEulerAngles = new Vector3(claw3.transform.eulerAngles.x, claw3.transform.eulerAngles.y, newAngle3);
     }
 
+    IEnumerator MoveClaw(float transitionDur, float startAngle, float endAngle)
+    {
+        inTransition = true;
+        float timer = 0;
+
+        while (timer < transitionDur)
+        {
+            timer += Time.deltaTime;
+
+            float newAngle1 = Mathf.LerpAngle(startAngle, endAngle, timer / transitionDur);
+            claw1.transform.localRotation = Quaternion.Euler(claw1.transform.localRotation.eulerAngles.x, claw1.transform.localRotation.eulerAngles.y, newAngle1);
+
+            float newAngle2 = Mathf.LerpAngle(startAngle, endAngle, timer / transitionDur);
+            claw2.transform.localRotation = Quaternion.Euler(claw2.transform.localRotation.eulerAngles.x, claw2.transform.localRotation.eulerAngles.y, newAngle2);
+
+            float newAngle3 = Mathf.LerpAngle(startAngle, endAngle, timer / transitionDur);
+            claw3.transform.localRotation = Quaternion.Euler(claw3.transform.localRotation.eulerAngles.x, claw3.transform.localRotation.eulerAngles.y, newAngle3);
+
+            yield return null;
+        }
+        inTransition = false;
+        yield break;
+    }
+
     private void OnEnable()
     {
         controls.Claw.Enable();
@@ -108,5 +139,12 @@ public class InputScript : MonoBehaviour
     private void OnDisable()
     {
         controls.Claw.Disable();
+    }
+    Quaternion zRotation(Quaternion q)
+    {
+        // https://stackoverflow.com/a/47841408/228738
+        float theta = Mathf.Atan2(q.z, q.w);
+        // quaternion representing rotation about the z axis
+        return new Quaternion(0, 0, Mathf.Sin(theta), Mathf.Cos(theta));
     }
 }
