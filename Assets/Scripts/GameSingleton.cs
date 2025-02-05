@@ -7,6 +7,7 @@ public class GameSingleton : MonoBehaviour
     public static GameSingleton Instance { get; private set; }
 
     [Header("GAMEOBJECTS")]
+    public Rigidbody ClawMotorRb;
     public GameObject ClawAttachment;
     public GameObject ClawPiece;
     public GameObject Claw1;

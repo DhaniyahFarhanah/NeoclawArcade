@@ -6,25 +6,32 @@ using UnityEngine.InputSystem;
 
 public class InputScript : MonoBehaviour
 {
-    // Start is called before the first frame update
+    //All Gameobjects
     PlayerInputs controls;
 
-    GameObject clawAttachment;
+    GameObject clawAttachment;  
     GameObject clawPiece;
     GameObject claw1;
     GameObject claw2;
     GameObject claw3;
+    Rigidbody motorRigidbody;
 
-    [SerializeField] Vector2 moveLeftJoy;
-    [SerializeField] quaternion rotation;
-    [SerializeField] float clawSpeed;
+    [Header("Motor Movement")]
+    Vector2 moveLeftJoy;                        //Input for joystick movement
+    Vector3 clawMovement;                       //Conversion of Input
+    [SerializeField] float clawSpeed;           //Speed multiplier for claw movement
 
-    [SerializeField] float maxClawRotation;
-    [SerializeField] float minClawRotation;
-    [SerializeField] float clawRotationSpeed;
-    [SerializeField] bool isClawOpen;
-    [SerializeField] float targetAngle;
-    Vector3 clawMovement;
+    [Header("Claw Lowering")]
+    [SerializeField] float upDownInput;         //Input of the button up down
+    [SerializeField] float upDownSpeed;         //Speed of moving up and down
+    [SerializeField] float clawLowerSpeed;      //Speed multiplier for claw move up or down
+
+    [Header("Claw Grabbing")]
+    [SerializeField] float maxClawRotation;     //Each individual claw rotation when open
+    [SerializeField] float minClawRotation;     //Each individual claw rotation when close 
+    [SerializeField] float clawRotationSpeed;   //Speed of the claw movement
+    bool isClawOpen;                            //Bool to toggle claw
+    float targetAngle;                          //Current angle needed for claw movement
 
     private void Awake()
     {
@@ -32,6 +39,9 @@ public class InputScript : MonoBehaviour
 
         controls.Claw.MoveClaw.performed += ctx => moveLeftJoy = ctx.ReadValue<Vector2>();
         controls.Claw.MoveClaw.canceled += ctx => moveLeftJoy = Vector2.zero;
+
+        controls.Claw.LowerClaw.performed += ctx => upDownInput = ctx.ReadValue<float>();
+        controls.Claw.LowerClaw.canceled += ctx => upDownInput = 0f;
 
         controls.Claw.CloseClaw.performed += ctx => ToggleClaw();
     }
@@ -43,16 +53,24 @@ public class InputScript : MonoBehaviour
         claw1 = GameSingleton.Instance.Claw1;
         claw2 = GameSingleton.Instance.Claw2;
         claw3 = GameSingleton.Instance.Claw3;
+        motorRigidbody = GameSingleton.Instance.ClawMotorRb;
     }
 
     // Update is called once per frame
     void Update()
     {
         //update claw movement
-        clawMovement = new Vector3(moveLeftJoy.x, 0, moveLeftJoy.y);
-        clawAttachment.transform.position += clawMovement * clawSpeed * Time.deltaTime;
+        clawMovement = new Vector3(moveLeftJoy.x, upDownInput * upDownSpeed, moveLeftJoy.y);
+        //clawAttachment.transform.position += clawMovement * clawSpeed * Time.deltaTime;
+        MoveMotor();
 
-        MoveClaws();
+        OpenClaws();
+    }
+
+    private void MoveMotor()
+    {
+        Vector3 newPosition = clawAttachment.transform.position + clawMovement * clawSpeed * Time.deltaTime;
+        motorRigidbody.MovePosition(newPosition);
     }
 
     private void ToggleClaw()
@@ -63,7 +81,12 @@ public class InputScript : MonoBehaviour
         
     }
 
-    private void MoveClaws()
+    private void MoveMotorUp()
+    {
+        //Vector3 newPosition = clawAttachment.transform.position +
+    }
+
+    private void OpenClaws()
     {
         float currentAngle1 = claw1.transform.localEulerAngles.z;
         float newAngle1 = Mathf.LerpAngle(currentAngle1, targetAngle, Time.deltaTime * clawRotationSpeed);

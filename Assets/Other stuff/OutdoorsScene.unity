@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 2737.0706, g: 2659.4495, b: 3575.5396, a: 1}
+  m_IndirectSpecularColor: {r: 2735.0627, g: 2658.055, b: 3574.1646, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1022,18 +1022,33 @@ Transform:
   - {fileID: 913657437}
   m_Father: {fileID: 562736639}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &491107208
-MonoBehaviour:
+--- !u!54 &491107208
+Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 491107206}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5046cdda12b47eb4fa76238f8ffadc8b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!1 &522346934
 GameObject:
   m_ObjectHideFlags: 0
@@ -1596,7 +1611,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
+  - {fileID: 2100000, guid: 4f8daeaadc7b77c42b2004245caa7f63, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2621,6 +2636,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a0ab639b29f7c44081b5c6ea434efbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ClawMotorRb: {fileID: 491107208}
   ClawAttachment: {fileID: 491107206}
   ClawPiece: {fileID: 913657436}
   Claw1: {fileID: 2065392853}
@@ -2874,19 +2890,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb6b1384ef64eb945b6944bd8f92d280, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveLeftJoy: {x: 0, y: 0}
-  rotation:
-    value:
-      x: 0
-      y: 0
-      z: 0
-      w: 0
-  clawSpeed: 5
+  clawSpeed: 10
+  upDownSpeed: 1
+  upDownInput: 0
+  clawLowerSpeed: 0
   maxClawRotation: -55.16
   minClawRotation: -5
   clawRotationSpeed: 10
-  isClawOpen: 0
-  targetAngle: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
