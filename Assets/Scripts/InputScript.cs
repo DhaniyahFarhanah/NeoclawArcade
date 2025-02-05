@@ -112,7 +112,6 @@ public class InputScript : MonoBehaviour
     {
         inTransition = true;
         float timer = 0;
-
         while (timer < transitionDur)
         {
             timer += Time.deltaTime;
@@ -131,6 +130,7 @@ public class InputScript : MonoBehaviour
         inTransition = false;
         yield break;
     }
+
 
     private void OnEnable()
     {
