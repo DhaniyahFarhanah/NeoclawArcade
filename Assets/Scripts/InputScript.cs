@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
@@ -16,6 +17,14 @@ public class InputScript : MonoBehaviour
     GameObject claw3;
     Rigidbody motorRigidbody;
 
+    GameObject joystick1;
+    GameObject joystick2;
+    GameObject upButton;
+    GameObject downButton;
+    GameObject normButton;
+
+    Transform ballSpawn;
+
     [Header("Motor Movement")]
     Vector2 moveLeftJoy;                        //Input for joystick movement
     Vector3 clawMovement;                       //Conversion of Input
@@ -32,6 +41,17 @@ public class InputScript : MonoBehaviour
     [SerializeField] float clawRotationSpeed;   //Speed of the claw movement
     bool isClawOpen;                            //Bool to toggle claw
     float targetAngle;                          //Current angle needed for claw movement
+
+    [Header("Clamping")]
+    [SerializeField] float minX;
+    [SerializeField] float maxX;
+    [SerializeField] float minY, maxY;
+    [SerializeField] float minZ, maxZ;
+
+    [Header("Balls")]
+    [SerializeField] int numOfSpheres;
+    [SerializeField] float spawnTime;
+    [SerializeField] GameObject capsule;
 
     bool inTransition;
     public float openDuration = 2f;
@@ -57,6 +77,15 @@ public class InputScript : MonoBehaviour
         claw2 = GameSingleton.Instance.Claw2;
         claw3 = GameSingleton.Instance.Claw3;
         motorRigidbody = GameSingleton.Instance.ClawMotorRb;
+        joystick1 = GameSingleton.Instance.Joystick1;
+        joystick2 = GameSingleton.Instance.Joystick2;
+        upButton = GameSingleton.Instance.UpButton;
+        downButton = GameSingleton.Instance.DownButton;
+        normButton = GameSingleton.Instance.NormButton;
+
+        ballSpawn = GameSingleton.Instance.BallSpawn.transform;
+
+        SpawnCapsules(spawnTime);
     }
 
     // Update is called once per frame
@@ -73,6 +102,13 @@ public class InputScript : MonoBehaviour
     private void MoveMotor()
     {
         Vector3 newPosition = clawAttachment.transform.position + clawMovement * clawSpeed * Time.deltaTime;
+
+        // Clamp position to keep it within the defined range
+        newPosition.x = Mathf.Clamp(newPosition.x, minX, maxX);
+        newPosition.y = Mathf.Clamp(newPosition.y, minY, maxY);
+        newPosition.z = Mathf.Clamp(newPosition.z, minZ, maxZ);
+
+
         motorRigidbody.MovePosition(newPosition);
     }
 
@@ -92,6 +128,7 @@ public class InputScript : MonoBehaviour
     {
         //Vector3 newPosition = clawAttachment.transform.position +
     }
+
 
     private void OpenClaws()
     {
@@ -131,6 +168,32 @@ public class InputScript : MonoBehaviour
         yield break;
     }
 
+    IEnumerator SpawnBalls(float transitionDur)
+    {
+        for (int i = 0; i <= numOfSpheres; i++)
+        {
+            // Define spawn area limits
+            float rangeX = 5f; // Adjust as needed
+            float rangeY = 0f; // If you want vertical variation, change this
+            float rangeZ = 5f; // Adjust as needed
+
+            // Generate a random offset within the defined range
+            Vector3 randomOffset = new Vector3(
+                UnityEngine.Random.Range(-rangeX, rangeX),
+                UnityEngine.Random.Range(-rangeY, rangeY),
+                UnityEngine.Random.Range(-rangeZ, rangeZ)
+            );
+
+            Instantiate(capsule, ballSpawn.position + randomOffset, Quaternion.identity);
+            yield return new WaitForSeconds(transitionDur / numOfSpheres);
+        }
+    }
+
+    public void SpawnCapsules(float tranTime)
+    {
+        StartCoroutine(SpawnBalls(tranTime));
+    }
+
 
     private void OnEnable()
     {
@@ -140,11 +203,5 @@ public class InputScript : MonoBehaviour
     {
         controls.Claw.Disable();
     }
-    Quaternion zRotation(Quaternion q)
-    {
-        // https://stackoverflow.com/a/47841408/228738
-        float theta = Mathf.Atan2(q.z, q.w);
-        // quaternion representing rotation about the z axis
-        return new Quaternion(0, 0, Mathf.Sin(theta), Mathf.Cos(theta));
-    }
+
 }

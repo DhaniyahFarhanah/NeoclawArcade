@@ -14,6 +14,12 @@ public class GameSingleton : MonoBehaviour
     public GameObject Claw2;
     public GameObject Claw3;
     public ClawMovement ClawScript;
+    public GameObject Joystick1;
+    public GameObject Joystick2;
+    public GameObject UpButton;
+    public GameObject DownButton;
+    public GameObject NormButton;
+    public GameObject BallSpawn;
 
     private void Awake()
     {
