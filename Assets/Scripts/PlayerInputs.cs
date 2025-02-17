@@ -53,6 +53,24 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MoveCamLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""8dc448e8-a700-4951-9759-f5f3e5fad07e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MoveCamRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""d6b77ef4-41ca-4805-951f-445afde015e8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -209,6 +227,50 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""action"": ""CloseClaw"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b44121dc-6444-4350-8081-c7c8eb7c7e73"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveCamLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""43d74807-64a5-4a82-808a-4bb683d05b59"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveCamLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3bb9a39f-f619-40ff-bffe-96a1f8fe0185"",
+                    ""path"": ""<Keyboard>/backspace"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveCamRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e8a1ff50-56e9-43bc-9380-0a7a73b697cb"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveCamRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -220,6 +282,8 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         m_Claw_MoveClaw = m_Claw.FindAction("MoveClaw", throwIfNotFound: true);
         m_Claw_LowerClaw = m_Claw.FindAction("LowerClaw", throwIfNotFound: true);
         m_Claw_CloseClaw = m_Claw.FindAction("CloseClaw", throwIfNotFound: true);
+        m_Claw_MoveCamLeft = m_Claw.FindAction("MoveCamLeft", throwIfNotFound: true);
+        m_Claw_MoveCamRight = m_Claw.FindAction("MoveCamRight", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -284,6 +348,8 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_Claw_MoveClaw;
     private readonly InputAction m_Claw_LowerClaw;
     private readonly InputAction m_Claw_CloseClaw;
+    private readonly InputAction m_Claw_MoveCamLeft;
+    private readonly InputAction m_Claw_MoveCamRight;
     public struct ClawActions
     {
         private @PlayerInputs m_Wrapper;
@@ -291,6 +357,8 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         public InputAction @MoveClaw => m_Wrapper.m_Claw_MoveClaw;
         public InputAction @LowerClaw => m_Wrapper.m_Claw_LowerClaw;
         public InputAction @CloseClaw => m_Wrapper.m_Claw_CloseClaw;
+        public InputAction @MoveCamLeft => m_Wrapper.m_Claw_MoveCamLeft;
+        public InputAction @MoveCamRight => m_Wrapper.m_Claw_MoveCamRight;
         public InputActionMap Get() { return m_Wrapper.m_Claw; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -309,6 +377,12 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @CloseClaw.started += instance.OnCloseClaw;
             @CloseClaw.performed += instance.OnCloseClaw;
             @CloseClaw.canceled += instance.OnCloseClaw;
+            @MoveCamLeft.started += instance.OnMoveCamLeft;
+            @MoveCamLeft.performed += instance.OnMoveCamLeft;
+            @MoveCamLeft.canceled += instance.OnMoveCamLeft;
+            @MoveCamRight.started += instance.OnMoveCamRight;
+            @MoveCamRight.performed += instance.OnMoveCamRight;
+            @MoveCamRight.canceled += instance.OnMoveCamRight;
         }
 
         private void UnregisterCallbacks(IClawActions instance)
@@ -322,6 +396,12 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @CloseClaw.started -= instance.OnCloseClaw;
             @CloseClaw.performed -= instance.OnCloseClaw;
             @CloseClaw.canceled -= instance.OnCloseClaw;
+            @MoveCamLeft.started -= instance.OnMoveCamLeft;
+            @MoveCamLeft.performed -= instance.OnMoveCamLeft;
+            @MoveCamLeft.canceled -= instance.OnMoveCamLeft;
+            @MoveCamRight.started -= instance.OnMoveCamRight;
+            @MoveCamRight.performed -= instance.OnMoveCamRight;
+            @MoveCamRight.canceled -= instance.OnMoveCamRight;
         }
 
         public void RemoveCallbacks(IClawActions instance)
@@ -344,5 +424,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         void OnMoveClaw(InputAction.CallbackContext context);
         void OnLowerClaw(InputAction.CallbackContext context);
         void OnCloseClaw(InputAction.CallbackContext context);
+        void OnMoveCamLeft(InputAction.CallbackContext context);
+        void OnMoveCamRight(InputAction.CallbackContext context);
     }
 }

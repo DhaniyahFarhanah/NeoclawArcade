@@ -58,6 +58,10 @@ public class InputScript : MonoBehaviour
     [SerializeField] float ButtonPress;
     float startpos;
 
+    [Header("Camera")]
+    public int CurrentCam = 0;
+    public Animator CamAnim;
+
     bool inTransition;
 
     private void Awake()
@@ -71,6 +75,7 @@ public class InputScript : MonoBehaviour
         controls.Claw.LowerClaw.canceled += ctx => upDownInput = 0f;
 
         controls.Claw.CloseClaw.performed += ctx => ToggleClaw();
+
     }
 
     private void Start()
@@ -119,7 +124,6 @@ public class InputScript : MonoBehaviour
 
         motorRigidbody.MovePosition(newPosition);
     }
-
     private void ToggleClaw()
     {
         if (!inTransition)
@@ -132,10 +136,6 @@ public class InputScript : MonoBehaviour
         }
     }
 
-    private void MoveMotorUp()
-    {
-        //Vector3 newPosition = clawAttachment.transform.position +
-    }
 
 
     private void OpenClaws()

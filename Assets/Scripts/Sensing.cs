@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class NewBehaviourScript : MonoBehaviour
 {
+    public bool isPlaying;
     GameObject confefe;
+    GameObject EndScreen;
 
     public Transform confefeSpawn;
     // Start is called before the first frame update
@@ -21,7 +23,10 @@ public class NewBehaviourScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("test");
-        Instantiate(confefe, confefeSpawn);
+        if (isPlaying)
+        {
+            Instantiate(confefe, confefeSpawn);
+        }
+        
     }
 }
