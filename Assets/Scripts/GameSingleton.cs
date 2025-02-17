@@ -20,6 +20,7 @@ public class GameSingleton : MonoBehaviour
     public GameObject DownButton;
     public GameObject NormButton;
     public GameObject BallSpawn;
+    public GameObject Confefe;
 
     private void Awake()
     {

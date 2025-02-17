@@ -41,6 +41,7 @@ public class InputScript : MonoBehaviour
     [SerializeField] float clawRotationSpeed;   //Speed of the claw movement
     bool isClawOpen;                            //Bool to toggle claw
     float targetAngle;                          //Current angle needed for claw movement
+    public float openDuration = 2f;
 
     [Header("Clamping")]
     [SerializeField] float minX;
@@ -51,10 +52,13 @@ public class InputScript : MonoBehaviour
     [Header("Balls")]
     [SerializeField] int numOfSpheres;
     [SerializeField] float spawnTime;
-    [SerializeField] GameObject capsule;
+    [SerializeField] GameObject[] ranCapsule;
+
+    [Header("Animations")]
+    [SerializeField] float ButtonPress;
+    float startpos;
 
     bool inTransition;
-    public float openDuration = 2f;
 
     private void Awake()
     {
@@ -85,6 +89,8 @@ public class InputScript : MonoBehaviour
 
         ballSpawn = GameSingleton.Instance.BallSpawn.transform;
 
+        startpos = joystick1.transform.localEulerAngles.x;
+
         SpawnCapsules(spawnTime);
     }
 
@@ -97,6 +103,8 @@ public class InputScript : MonoBehaviour
         MoveMotor();
 
         //OpenClaws();
+        RotateJoysticks();
+        MoveButtons();
     }
 
     private void MoveMotor()
@@ -168,6 +176,60 @@ public class InputScript : MonoBehaviour
         yield break;
     }
 
+    void RotateJoysticks()
+    {
+        // Define rotation angles based on input
+        float tiltAmountX = -moveLeftJoy.y * 20f;  // Right Left tilt
+        float tiltAmountZ = moveLeftJoy.x * 20f; // Up Down tilt
+
+        Quaternion targetRotationZ = Quaternion.Euler(startpos, 0f, tiltAmountZ);
+        Quaternion targetRotationX = Quaternion.Euler(tiltAmountX + startpos, 0f, 0f);
+
+        // Apply local rotation (smooth transition)
+        joystick1.transform.localRotation = Quaternion.Lerp(joystick1.transform.localRotation, targetRotationZ, Time.deltaTime * 5f);
+        joystick2.transform.localRotation = Quaternion.Lerp(joystick2.transform.localRotation, targetRotationX, Time.deltaTime * 5f);
+    }
+
+    void MoveButtons()
+    {
+        // Define button target positions
+        Vector3 Uppressed = new Vector3(upButton.transform.localPosition.x, ButtonPress, upButton.transform.localPosition.z);
+        Vector3 UpnotPressed = new Vector3(upButton.transform.localPosition.x, 0f, upButton.transform.localPosition.z);
+
+        Vector3 DownPressed = new Vector3(downButton.transform.localPosition.x, ButtonPress, downButton.transform.localPosition.z);
+        Vector3 DownnotPressed = new Vector3(downButton.transform.localPosition.x, 0f, downButton.transform.localPosition.z);
+
+        Vector3 ButtonPressed = new Vector3(normButton.transform.localPosition.x, ButtonPress, normButton.transform.localPosition.z);
+        Vector3 ButtonnotPressed = new Vector3(normButton.transform.localPosition.x, 0f, normButton.transform.localPosition.z);
+
+        if (inTransition)
+        {
+            normButton.transform.localPosition = Vector3.Lerp(normButton.transform.localPosition, ButtonPressed, Time.deltaTime * 1f);
+        }
+        else
+        {
+            normButton.transform.localPosition = Vector3.Lerp(normButton.transform.localPosition, ButtonnotPressed, Time.deltaTime * 1f);
+        }
+
+
+        // Smoothly move buttons based on input
+        if (upDownInput > 0) // Move up
+        {
+            upButton.transform.localPosition = Vector3.Lerp(upButton.transform.localPosition, Uppressed, Time.deltaTime * 5f);
+            downButton.transform.localPosition = Vector3.Lerp(downButton.transform.localPosition, DownnotPressed, Time.deltaTime * 5f);
+        }
+        else if (upDownInput < 0) // Move down
+        {
+            upButton.transform.localPosition = Vector3.Lerp(upButton.transform.localPosition, UpnotPressed, Time.deltaTime * 5f);
+            downButton.transform.localPosition = Vector3.Lerp(downButton.transform.localPosition, DownPressed, Time.deltaTime * 5f);
+        }
+        else // Return to normal
+        {
+            upButton.transform.localPosition = Vector3.Lerp(upButton.transform.localPosition, UpnotPressed, Time.deltaTime * 5f);
+            downButton.transform.localPosition = Vector3.Lerp(downButton.transform.localPosition, DownnotPressed, Time.deltaTime * 5f);
+        }
+    }
+
     IEnumerator SpawnBalls(float transitionDur)
     {
         for (int i = 0; i <= numOfSpheres; i++)
@@ -184,6 +246,7 @@ public class InputScript : MonoBehaviour
                 UnityEngine.Random.Range(-rangeZ, rangeZ)
             );
 
+            GameObject capsule = ranCapsule[UnityEngine.Random.Range(0, ranCapsule.Length - 1)];
             Instantiate(capsule, ballSpawn.position + randomOffset, Quaternion.identity);
             yield return new WaitForSeconds(transitionDur / numOfSpheres);
         }
