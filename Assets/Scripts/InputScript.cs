@@ -246,7 +246,7 @@ public class InputScript : MonoBehaviour
                 UnityEngine.Random.Range(-rangeZ, rangeZ)
             );
 
-            GameObject capsule = ranCapsule[UnityEngine.Random.Range(0, ranCapsule.Length - 1)];
+            GameObject capsule = ranCapsule[UnityEngine.Random.Range(0, ranCapsule.Length)];
             Instantiate(capsule, ballSpawn.position + randomOffset, Quaternion.identity);
             yield return new WaitForSeconds(transitionDur / numOfSpheres);
         }
