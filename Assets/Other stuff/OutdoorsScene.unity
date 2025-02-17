@@ -5676,7 +5676,7 @@ MonoBehaviour:
   - Flipphone
   - Tamagotchi
   techSprites:
-  - {fileID: 21300000, guid: 64c99b7ee8acea44085520ccce4b3f50, type: 3}
+  - {fileID: 21300000, guid: 906f7e99709cd8b4d990e762606a4ffc, type: 3}
   - {fileID: 21300000, guid: 64c99b7ee8acea44085520ccce4b3f50, type: 3}
   - {fileID: 21300000, guid: 64c99b7ee8acea44085520ccce4b3f50, type: 3}
   - {fileID: 21300000, guid: 64c99b7ee8acea44085520ccce4b3f50, type: 3}
