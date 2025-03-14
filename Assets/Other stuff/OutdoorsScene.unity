@@ -5225,7 +5225,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: e5cc5ffbdeb329e42b7c1ff62a772ce9, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.278
+  m_Volume: 0.179
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -5556,6 +5556,7 @@ GameObject:
   - component: {fileID: 1109286705}
   - component: {fileID: 1109286704}
   - component: {fileID: 1109286707}
+  - component: {fileID: 1109286708}
   m_Layer: 0
   m_Name: Sensor
   m_TagString: Untagged
@@ -5673,44 +5674,140 @@ MonoBehaviour:
   techNames:
   - Floppy Disk
   - MP3 Player
-  - Flipphone
-  - Tamagotchi
+  - Unbreakable Phone
+  - Your forgot to feed them
   techSprites:
   - {fileID: 21300000, guid: 906f7e99709cd8b4d990e762606a4ffc, type: 3}
-  - {fileID: 21300000, guid: 64c99b7ee8acea44085520ccce4b3f50, type: 3}
-  - {fileID: 21300000, guid: 64c99b7ee8acea44085520ccce4b3f50, type: 3}
-  - {fileID: 21300000, guid: 64c99b7ee8acea44085520ccce4b3f50, type: 3}
+  - {fileID: 21300000, guid: 06f5af914a64a4b4094dcd3332dae624, type: 3}
+  - {fileID: 21300000, guid: f2cc8f881eb1cdc4dbf3dd0608aa9382, type: 3}
+  - {fileID: 21300000, guid: 7b4538bd3110c0e4795aa16699201bff, type: 3}
   snackNames:
   - Ringpop
   - Eyeglass Candy
-  - Popsicles
+  - Ice Lolly
   - Gem Biscuit
   snackSprites:
-  - {fileID: 21300000, guid: 64c99b7ee8acea44085520ccce4b3f50, type: 3}
-  - {fileID: 21300000, guid: 64c99b7ee8acea44085520ccce4b3f50, type: 3}
-  - {fileID: 21300000, guid: 64c99b7ee8acea44085520ccce4b3f50, type: 3}
-  - {fileID: 21300000, guid: a50b33bd1ed2c654885821b2ebb0effb, type: 3}
+  - {fileID: 21300000, guid: 31a1fd94556e303439b20a746d8c77dc, type: 3}
+  - {fileID: 21300000, guid: b1f1179c3562e014d9180c60086e5768, type: 3}
+  - {fileID: 21300000, guid: 30965e9f5549e7041ac5f8389fec0c5e, type: 3}
+  - {fileID: 21300000, guid: 70a5197f93fc3a2418321789e509d906, type: 3}
   gamesNames:
-  - Chopsticks
+  - Marbles
   - Marbles
   - Bestman Balloon
   - Country Erasers
   gamesSprites:
-  - {fileID: 21300000, guid: 64c99b7ee8acea44085520ccce4b3f50, type: 3}
-  - {fileID: 21300000, guid: 64c99b7ee8acea44085520ccce4b3f50, type: 3}
-  - {fileID: 21300000, guid: 64c99b7ee8acea44085520ccce4b3f50, type: 3}
-  - {fileID: 21300000, guid: 64c99b7ee8acea44085520ccce4b3f50, type: 3}
+  - {fileID: 21300000, guid: ced78eec434b2b94baec2671d3d0a45b, type: 3}
+  - {fileID: 21300000, guid: ced78eec434b2b94baec2671d3d0a45b, type: 3}
+  - {fileID: 21300000, guid: 24606a0e2d0d52d4397ce3194592ac95, type: 3}
+  - {fileID: 21300000, guid: 80ad7b72ebfc789469b63ea08e21a573, type: 3}
   charNames:
-  - Some Regular Guy
+  - Spaceship
   - Orb that HUNGERS
   - Hedgehog with boots
-  - 'Valentino '
+  - Some Regular Guy
   charSprites:
   - {fileID: 21300000, guid: 64c99b7ee8acea44085520ccce4b3f50, type: 3}
-  - {fileID: 21300000, guid: a50b33bd1ed2c654885821b2ebb0effb, type: 3}
-  - {fileID: 21300000, guid: 29d4640416e75414082e37207777043e, type: 3}
-  - {fileID: 21300000, guid: 64c99b7ee8acea44085520ccce4b3f50, type: 3}
+  - {fileID: 21300000, guid: 1a5f115007ee2e14689c917d523b7d5d, type: 3}
+  - {fileID: 21300000, guid: 1a5f115007ee2e14689c917d523b7d5d, type: 3}
+  - {fileID: 21300000, guid: 1a5f115007ee2e14689c917d523b7d5d, type: 3}
   confefeSpawn: {fileID: 1054334046}
+--- !u!82 &1109286708
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1109286702}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1146410619
 GameObject:
   m_ObjectHideFlags: 0
@@ -8112,7 +8209,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: ff4d32b99a9b40241833a632d9241b27, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.857
+  m_Volume: 0.59
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -10165,7 +10262,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: cb7640875f665364dac1ad1e1d91052b, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.278
+  m_Volume: 0.105
   m_Pitch: 1
   Loop: 1
   Mute: 0

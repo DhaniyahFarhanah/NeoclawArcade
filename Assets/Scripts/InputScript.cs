@@ -110,6 +110,11 @@ public class InputScript : MonoBehaviour
         //OpenClaws();
         RotateJoysticks();
         MoveButtons();
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
 
     private void MoveMotor()
